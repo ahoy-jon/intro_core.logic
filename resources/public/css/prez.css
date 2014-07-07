@@ -1,0 +1,51 @@
+
+.reveal section img.logo-viadeo {
+ border: 0;
+ background: #000;
+ float:center;
+ margin: 0 auto 2em;
+  display:block;
+}
+
+hr.clear {
+clear:both;
+visibility:hidden;
+}
+
+.reveal section.dark {
+
+  background-color:rgba(0,0,0,0.5);
+}
+
+.reveal section table.wikitable {
+float:center;
+border-style:solid;
+border-width:1px;
+font-size:0.8em;
+display:inline-table;
+border-collapse:collapse;
+}
+
+.reveal section table.wikitable td {
+ border-style:solid;
+border-width:1px;
+padding:0.25em;
+}
+
+.reveal section table.wikitable th {
+ border-style:solid;
+border-width:1px;
+  padding:0.25em;
+
+}
+
+
+.reveal section pre code {
+    background-color:rgba(0,0,0,0.5);
+}
+
+
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+  text-transform:none;
+
+}

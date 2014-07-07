@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>core.logic</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+
+
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/moon.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+
+		<link rel="stylesheet" href="css/prez.css">
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>Intro core.logic</h1>
+					<h3>@ahoy_jon</h3>
+
+				</section>
+
+				<section data-background="#000">
+					<h2>During daylight</h2>
+                    <br>
+                    <img width="280" src="img/viadeo-white.svg" class="logo-viadeo" >
+
+					<p>
+
+                        <!-- -->
+
+                        Business Intelligence Platform Engineer at Viadeo !
+					</p>
+                    <hr class=clear>
+                    <p>
+                        TL;DR : We provide the right data, in the right place <br/>in time.
+                    </p>
+                    <br>
+                    <p> All in Clojure ! (with MySQL, Bash, Hadoop, ....) </p>
+
+					<aside class="notes">
+						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
+					</aside>
+				</section>
+
+                <section data-background="#000">
+					<h2>During daylight</h2>
+
+                    <br>
+                    <p>Our Data team : FP enthusiasts ! </p>
+                    <br />
+                    <p>A lot of Scala, R and JS ...</p>
+
+
+                </section>
+
+                <section>
+                    <section  data-background="img/workbench.jpg" class="dark">
+
+                        <h2>Why Clojure / core.logic ? </h2>
+                    </section>
+
+
+                    <section>
+                        <h2>We could talk about EDN ... </h2>
+
+                        <pre><code data-trim contenteditable>
+{:path "-----/fromtable=Billing/importdatetime=2014-01-18T00_00_08p01_00/fromserver=------",
+ :server "--------",
+ :name "viaduc.Billing",
+ :start #inst "2014-01-17T23:00:08.000-00:00",
+ :end #inst "2014-01-17T23:01:42.000-00:00",
+ :schema "viaduc",
+ :importdatetime "2014-01-18T00_00_08p01_00",
+ :jobtype "sqoop",
+ :table "Billing"}
+                         </code></pre>
+
+
+                    </section>
+
+                     <section>
+                        <h2>But I believe in speciation !</h2>
+
+                         <h3>Everything should be implemented at least twice !!</h3>
+
+                         <img src="img/allopatric_speci_c.jpg" />
+                    </section>
+
+                    <section data-background="img/existen.gif" class="dark">
+                        <h2>Have you heard of Existentialism ?</h2>
+                    </section>
+
+
+                </section>
+
+
+
+<section  data-background="img/FTIo0K0.gif" class="dark">
+                        <h2>Functions vs Relations</h2>
+
+<pre><code>
+Functions :
+
+(= (f x  ) y) -> true / false
+(= (g x y) z) -> true / false
+(= (h    ) x) -> true / false
+
+Relations :
+
+(fº x y  )    -> goals
+(gº x y z)    -> goals
+(hº x    )    -> goals
+
+</code></pre>
+
+                    </section>
+
+
+
+                <section data-background="img/HZjFX.gif" class="dark">
+                    <h2>NoSQL</h2>
+                    <p>SQL use a 3-valued logic !</p>
+
+                    <table class="wikitable">
+<tbody><tr>
+<th rowspan="2" colspan="2"><i>A</i> <b>AND</b> <i>B</i></th>
+<th colspan="3"><i>B</i></th>
+</tr>
+<tr>
+<th>True</th>
+<th>Null</th>
+<th>False</th>
+</tr>
+<tr>
+<th scope="row" rowspan="3" style="padding:0px 10px"><i>A</i></th>
+<th scope="row">True</th>
+<td>True</td>
+<td>Null</td>
+<td>False</td>
+</tr>
+<tr>
+<th scope="row">Null</th>
+<td>Null</td>
+<td>Null</td>
+<td>False</td>
+</tr>
+<tr>
+<th scope="row">False</th>
+<td>False</td>
+<td>False</td>
+<td>False</td>
+</tr>
+</tbody></table>
+
+
+                       <table class="wikitable">
+<tbody>
+    <tr><th  colspan="2"><b>NOT</b></th><tr>
+    <tr>
+<th>A</th>
+<th><b>NOT</b> A</th>
+</tr>
+<tr>
+<th scope="row">True</th>
+<td>False</td>
+</tr>
+<tr>
+<th scope="row">Unknown</th>
+<td>Unknown</td>
+</tr>
+<tr>
+<th scope="row">False</th>
+<td>True</td>
+</tr>
+</tbody></table>
+                    <br>
+
+
+
+                    <br>
+
+
+
+                    <table class="wikitable">
+<tbody><tr>
+<th rowspan="2" colspan="2"><i>A</i> <b>OR</b> <i>B</i></th>
+<th colspan="3"><i>B</i></th>
+</tr>
+<tr>
+<th>True</th>
+<th>Unknown</th>
+<th>False</th>
+</tr>
+<tr>
+<th scope="row" rowspan="3" style="padding:0px 10px"><i>A</i></th>
+<th scope="row">True</th>
+<td>True</td>
+<td>True</td>
+<td>True</td>
+</tr>
+<tr>
+<th scope="row">Unknown</th>
+<td>True</td>
+<td>Unknown</td>
+<td>Unknown</td>
+</tr>
+<tr>
+<th scope="row">False</th>
+<td>True</td>
+<td>Unknown</td>
+<td>False</td>
+</tr>
+</tbody></table>
+
+
+
+                </section>
+
+
+
+                <section data-background="img/uOYFkKS.gif">
+					<h1>Conclusion</h1>
+
+
+                </section>
+
+
+
+                <section data-background="img/Bethesda-Fountain-9801.gif">
+					<h1>Conclusionº</h1>
+
+
+                </section>
+
+
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

@@ -1,28 +1,66 @@
 (ns cdl.core
   (:refer-clojure :exclude [==])
   (:use [clojure.core.logic][clojure.core.logic.pldb])
-  (:require [clojure.core.logic.fd :as fd])
-  )
+  (:require [clojure.core.logic.fd :as fd]))
 
 
-;;; var a = 1;
-;;   (fn [x y] (+ x y))
 
 
 
 (def a 1)
 
+(defn f [x] (inc x))
+
+(f 1)
+
+
+(run* [a b c]
+      (== b c)
+      (conde
+       [(== c 1)]
+       [(== c 2)]
+      ))
+
+(run* [q]
+      (fresh [a b c]
+             (fd/in a b c (fd/interval 0 100))
+             (fd/+ a b c)
+             (fd/* a b c)
+             (== q [a b c])
+             ))
+
+
+
+
+
 (run* [a]
-      (fresh [result b]
-      (== result {:b b, :c 2})
-      (== a  {:a result})))
+   (fresh [result b]
+      (== b 1)
+      (== result {:b b})
+      (== a      {:a result})))
 
 (db-rel parento)
 
 (def parentdb (db [parento 'Bart 'Homer]
                   [parento 'Homer 'Abraham]
-                  [parento 'Abraham 'Plouf]
-                  ))
+                  [parento 'Abraham 'Plouf]))
+
+(defn ancestoro [c a]
+  (conde
+   [(parento c a)]
+   [(fresh [ap]
+           (parento c ap)
+           (ancestoro ap a)
+           )]))
+
+(with-db parentdb (run* [q]
+                        (ancestoro 'Bart q)
+
+                        ))
+
+
+
+
 
 
 (defn disto [x d y]
@@ -35,62 +73,61 @@
            (resto d r)
            (disto x () z)
            (disto z r  y)
+           )]))
+
+
+
+
+(defn inco [x y]
+  (all
+    (fd/in x y (fd/interval 0 100) )
+    (fd/+ x 1 y)))
+
+(defn disto [x d y]
+  (conde
+   [(== 0 d)
+    (conde
+      [(parento x y)]
+      [(parento y x)])]
+   [(fresh [r z]
+           (inco r d)
+           (disto x 0 z)
+           (disto z r  y)
            )]
    )
-
   )
 
+(with-db parentdb
+  (run 10 [a b c]
+      (== b 5)
+      (disto a b c)))
 
-
-(defn tableo [who when table])
-
-(defn not-Allowedo [table col])
-
-(defn columno [server table col])
-
-
-(defn ancestoro [c a]
-  (conde
-   [(parento c a)]
-   [(fresh [ap]
-           (parento c ap)
-           (ancestoro ap a)
-           )]))
 
 
 (with-db parentdb (run* [a b] (ancestoro a b)))
 
 
+(defmacro to-map [& body]
+  `(zipmap (map keyword (quote ~body)) [~@body]))
 
-(def a 1 )
-(def b 2)
-
-(to-map a b)
 
 (run 4 [a b q]
-     (!= a b )
+    ; (!= a b)
      (== a 1)
      (== q (to-map a b)))
 
-(with-db parentdb (run* [c p]
-      (ancestoro c p)))
+(with-db parentdb (run* [c p] (ancestoro c p)))
 
 
 
 (run* [q]
-      (fresh [a b]
-             (== 2 b)
-             (conde
-              [(== a b)]
-              [(== a 1)])
-             (== q {:result  {:a a :b b}})
-             ))
+  (fresh [a b]
+    (== 2 b)
+    (conde
+      [(== a b)]
+      [(== a 1)])
+    (== q {:result {:a a :b b}})))
 
-
-
-
-(defmacro to-map [& body]
-  `(zipmap (map keyword (quote ~body)) [~@body]))
 
 (macroexpand '(to-map a))
 
@@ -99,8 +136,6 @@
             (== q (to-map a b))
             (== a 1)
             (== b 2)))
-
-
 
 (db-rel men m)
 (db-rel robot m)
@@ -171,8 +206,7 @@
          [(nafc #(fresh [l] (language % l)) e)    (men e)(== men? true)]))
 
 (with-db mydb
-  (run*  [ e b l]
-                (lm e b l)))
+  (run* [ e b l] (lm e b l)))
 
  (defn cts [e men? lang]
         (fresh [m l]
@@ -198,7 +232,7 @@
                      (cts e men? lang)
                      ))
 
- (def data
+(def data
    (partition 2 '[Walter White
                   Skyler White
                   Gustavo Fring
@@ -221,6 +255,8 @@
   ([[x . xs] [y . ys] [z . zs]]
      (== z [x y])
      (zipo xs ys zs)))
+
+;; https://github.com/Djebbz/core-logic-primer
 
 (defne ruleo [z]
   ([()])
@@ -246,14 +282,63 @@
 
 
 
- (defne match-map [m o]
+(defne match-map [m o]
   ([{:foo {:bar o}} _]))
 
+(run* [q]
+     (fresh [a b]
+     (== a {:foo {:bar :quxx}})
+     (== [a b] q)
+     (match-map a b)))
 
- (run 1 [a]
-      (permuteo data a)
-   )
+
+(run 1 [a]
+      (permuteo data a))
 
 
+(def deps {:d [:c :b] :b [:a :0] :c [:a] :e [:d :c] :a [] :0 []})
+
+(def task-time {:a 10 :b 2 :c 5 :d 10 :0 15})
+
+(defne offseto [l]
+  ([[_ o]] (fd/in o (fd/interval 0 100))))
+
+
+(defn depso [k ds]
+  (membero [k ds] (vec deps)))
+
+(defn printlno [& rest]
+  (== nil (do (apply println rest)
+            (flush))))
+
+(run* [tt]
+       (== tt (map vector (keys task-time) (repeatedly lvar)))
+       (everyg offseto tt)
+       (everyg (fn [t]
+                 (fresh [k l ds]
+                        (== t [k l])
+                        (depso k ds)
+
+                        (conde [(== ds [])(== l 0)]
+                               [(everyg (fn [d]
+                                  (fresh [l2 ttime l2end]
+                                         (membero [d l2] tt)
+                                         (membero [d ttime] (vec task-time))
+                                         (fd/+ l2 ttime l2end)
+                                         (fd/>= l l2end))) ds)
+                               (fresh [d l2 ttime]
+                                      (membero d ds)
+                                      (membero [d l2] tt)
+                                      (membero [d ttime] (vec task-time))
+                                      (fd/+ l2 ttime l))]
+                               )
+
+                        )
+
+                 ) tt)
+
+
+
+       )
 
 

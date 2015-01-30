@@ -33,6 +33,30 @@
 
 
 
+(map vector [1 2 3 4] [:a :b :c :d])
+
+
+(first
+ (run 1 [a b]
+      (zip° a b '([1 :a] [2 :b] [3 :c] [4 :d]))))
+
+
+conso
+
+
+(first
+
+ (run 1 [a b c]
+
+      (fresh [l ll]
+             (== c ll)
+             (conso 56 l ll)
+
+      (fd/in a b (fd/interval 0 100))
+      (map° #(fd/+ %1 1 %2)  [b a b] ll ))))
+
+
+
 (run* [a]
    (fresh [result b]
       (== b 1)
@@ -232,6 +256,14 @@
                      (cts e men? lang)
                      ))
 
+
+
+
+;; https://github.com/Djebbz/core-logic-primer
+
+
+;; BEGINNING SECRET SANTA
+
 (def data
    (partition 2 '[Walter White
                   Skyler White
@@ -241,43 +273,59 @@
                   Henry Schrader
                   Marie Schrader]))
 
-(defne oreo
-  "MMmmm COOOKIES" ;; I don't know how to name that one
-  [x y z]
-  ([a a a])
-  ([a b a] (!= a b))
-  ([b a a] (!= a b)))
 
-(defne zipo
-  "zipped = (map (partial vector) xl yl)"
-  [xl yl zipped]
-  ([xs ys ()] (membero () [xs ys]))
-  ([[x . xs] [y . ys] [z . zs]]
-     (== z [x y])
-     (zipo xs ys zs)))
+;; like clojure.core/map, but relationnal
+(defn map° [g & ls]
+  (conde
+   [(everyg (partial == '()) ls)]
+   [(let [n (count ls)
+          heads (repeatedly n lvar)
+          tails (repeatedly n lvar)]
+      (all (everyg (partial apply conso)(map vector heads tails ls))
+           (apply g heads)
+           (apply map° g tails)))]))
 
-;; https://github.com/Djebbz/core-logic-primer
+;; we can implement a more generic version of everyg with map°
+(defn everyg° [g col] (map° g col))
 
-(defne ruleo [z]
-  ([()])
-  ([[[[_ x] [_ y]] . as]] ; extract names of the first pair
-   (!= x y)
-   (ruleo as)))
+; or ; (def everyg° map°)
 
-(run 10  [couple]
-     (fresh [result]
-            (zipo data result couple)
-            (permuteo data result)
-            (ruleo couple)))
 
-'({:z ([(Walter White) (Walter White)] [(Skyler White) (Skyler White)]
-       [(Gustavo Fring) (Gustavo Fring)] [(Saul Goodman) (Saul Goodman)]
-       [(Jesse Pinkman) (Jesse Pinkman)] [(Henry Schrader) (Henry Schrader)]
-       [(Marie Schrader) (Marie Schrader)]),
-   :l2 ((Walter White) (Skyler White) (Gustavo Fring) (Saul Goodman) (Jesse Pinkman)
-        (Henry Schrader) (Marie Schrader)),
-   :l1 ((Walter White) (Skyler White) (Gustavo Fring)
-        (Saul Goodman) (Jesse Pinkman) (Henry Schrader) (Marie Schrader))})
+;; like clojure.core/vector, but relationnal
+(defn vector° [& args]
+  (== (vec (butlast args)) (last args)))
+
+;; like (map vector a b), but relationnal
+(defn zip° [a b c]
+  (map° vector° a b c))
+
+
+(run 2 [a b]
+  (zip° a b (list [1 :a] [2 :b] [3 :c])))
+
+
+;; the only rule of the problem, checking that a couple is correct.
+(defne couple° [z]
+  ;; Lastnames must be different
+  ([[[_ x][_ y]]] (!= x y)))
+
+
+(run 1 [couples]
+     (fresh [giveto]
+            (zip° data giveto couples)
+            (permuteo data giveto)
+            (everyg° couple° couples)))
+
+#_ '(([(Walter White)   (Gustavo Fring) ]
+      [(Skyler White)   (Saul Goodman)  ]
+      [(Gustavo Fring)  (Jesse Pinkman) ]
+      [(Saul Goodman)   (Henry Schrader)]
+      [(Jesse Pinkman)  (Marie Schrader)]
+      [(Henry Schrader) (Walter White)  ]
+      [(Marie Schrader) (Skyler White)  ]))
+
+;;; END SECRET SANTA
+
 
 
 

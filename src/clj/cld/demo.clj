@@ -8,6 +8,22 @@
 
 
 
+
+(run 2 [q]
+
+     (fresh [a]
+
+     (membero q [1 2 3 4 5 6])
+     (membero a [1 2 3 4 5 6])
+
+     (project [a]
+            (= 4 (* 2)))
+        (== q a)
+            (!= a 2)
+
+       ))
+
+
 ;; VENN DEMO
 
 (def some-data
@@ -47,7 +63,7 @@
      (== [_ _ [_ _ 'milk _ _] _ _] hs)
      (firsto hs ['norwegian _ _ _ _])
      (nexto ['norwegian _ _ _ _] [_ _ _ _ 'blue] hs)
-     (righto [_ _ _ _ 'ivory] [_ _ _ _ 'green] hs)
+     (righto  [_ _ _ _ 'ivory] [_ _ _ _ 'green] hs)
      (membero ['englishman _ _ _ 'red] hs)
      (membero [_ 'kools _ _ 'yellow] hs)
      (membero ['spaniard _ _ 'dog _] hs)
@@ -56,8 +72,8 @@
      (membero [_ 'lucky-strikes 'oj _ _] hs)
      (membero ['japanese 'parliaments _ _ _] hs)
      (membero [_ 'oldgolds _ 'snails _] hs)
-     (nexto [_ _ _ 'horse _] [_ 'kools _ _ _] hs)
-     (nexto [_ _ _ 'fox _] [_ 'chesterfields _ _ _] hs))))
+     (nexto   [_ _ _ 'horse _] [_ 'kools _ _ _] hs)
+     (nexto   [_ _ _ 'fox _] [_ 'chesterfields _ _ _] hs))))
 
 
 (run* [hs] (zebrao hs))

@@ -1,6 +1,10 @@
 
 (ns zero)
 
+
+;; THIS CODE DECRIBE HOW TO IMPLEMENT YOUR OWN LOGIC ENGINE
+
+
 (defn lvar
   ([] (lvar ""))
   ([nm] (gensym (str nm "_"))))
